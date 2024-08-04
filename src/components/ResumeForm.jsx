@@ -8,10 +8,7 @@ import { MdDeleteForever } from "react-icons/md";
 
 const ResumeForm = () => {
 
-  const { id } = useSearchParams()
-  // console.log(id);
-
-  const token = JSON.parse(localStorage.getItem("token")) || '';
+  const token = localStorage.getItem("token") || '';
 
   const [resume, setResume] = useState({
     personalInfo: {
@@ -33,7 +30,7 @@ const ResumeForm = () => {
     ],
     education: [{ institution: "", degree: "", year: "" }],
     skills: [""],
-    certifications: [{ name: "", organization: "", date: "" }],
+    certifications: [{ name: "", organization: "", year: "" }],
     projects: [{ name: "", description: "", date: "" }],
     summary: "",
   });
@@ -41,18 +38,7 @@ const ResumeForm = () => {
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const res = axios.get(`https://resume-builder-server-51je.onrender.com/resume/${id}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    );
-    console.log(res.data.resume);
-  
-  }, [id])
+
   
 
   const handleChange = (e, section, index = null) => {
@@ -77,7 +63,7 @@ const ResumeForm = () => {
       newArray[index] = value;
       setResume({ ...resume, skills: newArray });
     } else if (section === "summary") {
-      setResume({ ...resume, summary: value });
+      setResume({ ...resume, [section]: value });
     }
   };
 
@@ -119,11 +105,12 @@ const ResumeForm = () => {
         }
       }
       );
-      console.log(res);
-      toast.success("Resume saved successfully!");
+      
+      alert("Resume saved successfully! see in dashboard");
+      navigate('/')
       
     } catch (error) {
-      toast.error("Failed to save resume!");
+      alert("Failed to save resume!");
     }
   };
 
@@ -426,8 +413,8 @@ const ResumeForm = () => {
             />
             <input
               type="date"
-              name="date"
-              value={cert.date}
+              name="year"
+              value={cert.year}
               onChange={(e) => handleChange(e, "certifications", index)}
               className="border border-gray-300 p-2 rounded"
               required
