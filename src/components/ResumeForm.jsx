@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaRegLightbulb } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ResumePreview from "./ResumePreview";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -19,7 +19,7 @@ const ResumeForm = () => {
       linkedin: "",
       portfolio: "",
     },
-    workExperience: [
+    experience: [
       {
         company: "",
         position: "",
@@ -49,7 +49,7 @@ const ResumeForm = () => {
         personalInfo: { ...resume.personalInfo, [name]: value },
       });
     } else if (
-      section === "workExperience" ||
+      section === "experience" ||
       section === "education" ||
       section === "certifications" ||
       section === "projects"
@@ -69,7 +69,7 @@ const ResumeForm = () => {
 
   const handleAddItem = (section) => {
     const newItem =
-      section === "workExperience"
+      section === "experience"
         ? {
             company: "",
             position: "",
@@ -127,7 +127,7 @@ const ResumeForm = () => {
 
       setResume((prevResume) => ({
         ...prevResume,
-        workExperience: prevResume.workExperience.map((exp, index) => {
+        experience: prevResume.experience.map((exp, index) => {
           if (index === 0) {
             return { ...exp, description: suggestions[0] || exp.description };
           }
@@ -234,7 +234,7 @@ const ResumeForm = () => {
         )}
 
         <h2 className="text-2xl font-bold mb-4">Work Experience</h2>
-        {resume.workExperience.map((exp, index) => (
+        {resume.experience.map((exp, index) => (
           <div
             key={index}
             className="grid grid-cols-1 gap-4 mb-4 border p-4 rounded border-gray-300"
@@ -243,7 +243,7 @@ const ResumeForm = () => {
               type="text"
               name="company"
               value={exp.company}
-              onChange={(e) => handleChange(e, "workExperience", index)}
+              onChange={(e) => handleChange(e, "experience", index)}
               placeholder="Company"
               className="border border-gray-300 p-2 rounded"
               required
@@ -252,7 +252,7 @@ const ResumeForm = () => {
               type="text"
               name="position"
               value={exp.position}
-              onChange={(e) => handleChange(e, "workExperience", index)}
+              onChange={(e) => handleChange(e, "experience", index)}
               placeholder="Position"
               className="border border-gray-300 p-2 rounded"
               required
@@ -263,7 +263,7 @@ const ResumeForm = () => {
                 type="date"
                 name="startDate"
                 value={exp.startDate}
-                onChange={(e) => handleChange(e, "workExperience", index)}
+                onChange={(e) => handleChange(e, "experience", index)}
                 className="border border-gray-300 p-2 rounded w-1/3"
                 required
               />
@@ -272,7 +272,7 @@ const ResumeForm = () => {
                 type="date"
                 name="endDate"
                 value={exp.endDate}
-                onChange={(e) => handleChange(e, "workExperience", index)}
+                onChange={(e) => handleChange(e, "experience", index)}
                 className="border border-gray-300 p-2 rounded w-1/3"
                 required
               />
@@ -281,7 +281,7 @@ const ResumeForm = () => {
             <textarea
               name="description"
               value={exp.description}
-              onChange={(e) => handleChange(e, "workExperience", index)}
+              onChange={(e) => handleChange(e, "experience", index)}
               placeholder="Description"
               className="border border-gray-300 p-2 rounded w-full"
               rows="4"
@@ -289,14 +289,14 @@ const ResumeForm = () => {
             ></textarea>
             <MdDeleteForever
               type="button"
-              onClick={() => handleRemoveItem("workExperience", index)}
+              onClick={() => handleRemoveItem("experience", index)}
               className="text-red-500 text-3xl hover:scale-110 duration-500"
             />
           </div>
         ))}
         <button
           type="button"
-          onClick={() => handleAddItem("workExperience")}
+          onClick={() => handleAddItem("experience")}
           className="bg-blue-500  text-white p-2  px-4 rounded    hover:text-blue-500 hover:bg-white hover:border-blue-400 hover:border-2 duration-500"
         >
           Add Work Experience

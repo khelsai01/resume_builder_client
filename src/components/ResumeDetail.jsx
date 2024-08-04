@@ -6,6 +6,8 @@ import { FiDownload } from "react-icons/fi";
 const ResumeDetail = ({ resume = {}, onClose }) => {
   const resumeRef = useRef(null);
 
+  console.log(resume)
+
   const generatePDF = () => {
     const doc = new jsPDF({
       unit: "px",
@@ -25,10 +27,10 @@ const ResumeDetail = ({ resume = {}, onClose }) => {
   };
 
   // Function to generate a summary from work experience
-  const generateSummary = (workExperience) => {
-    if (!workExperience || workExperience.length === 0)
+  const generateSummary = (experience) => {
+    if (!experience || experience.length === 0)
       return "No work experience available.";
-    const latestJob = workExperience[0];
+    const latestJob = experience[0];
     return `Experienced ${latestJob.position} with a background in ${
       latestJob.company
     }. Skilled in ${resume.skills?.join(", ") || "various skills"}.`;
@@ -74,7 +76,7 @@ const ResumeDetail = ({ resume = {}, onClose }) => {
             Summary
           </h2>
           <p className="text-gray-700">
-            {generateSummary(resume.workExperience)}
+            {resume.summary}
           </p>
         </section>
 
@@ -83,8 +85,8 @@ const ResumeDetail = ({ resume = {}, onClose }) => {
           <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
             Work Experience
           </h2>
-          {resume.workExperience?.length > 0 ? (
-            resume.workExperience.map((exp, idx) => (
+          {resume?.experience?.length > 0 ? (
+            resume?.experience?.map((exp, idx) => (
               <div key={idx} className="mb-6">
                 <h3 className="text-xl font-semibold text-gray-800">
                   {exp.position || "Position Not Available"}
